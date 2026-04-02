@@ -1,0 +1,795 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pontora – Coming to Exeter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:     #0B5E4A;
+      --green-mid: #1D9E75;
+      --green-lt:  #4ADE80;
+      --cream:     #F8F4ED;
+      --cream-dk:  #EDE8DF;
+      --ink:       #1A1A1A;
+      --muted:     #6B7280;
+      --white:     #FFFFFF;
+      --radius:    16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(248,244,237,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(11,94,74,0.08);
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--green);
+      letter-spacing: -0.03em;
+    }
+
+    .logo span {
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: var(--green-lt);
+      border-radius: 50%;
+      margin-left: 3px;
+      vertical-align: middle;
+      transform: translateY(-2px);
+    }
+
+    .nav-cta {
+      background: var(--green);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 10px 22px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 140px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* floating background blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .blob-1 { width: 600px; height: 600px; background: var(--green-mid); top: -150px; right: -200px; animation: float 8s ease-in-out infinite; }
+    .blob-2 { width: 400px; height: 400px; background: var(--green-lt); bottom: 50px; left: -100px; animation: float 10s ease-in-out infinite reverse; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-30px); }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(11,94,74,0.08);
+      border: 1px solid rgba(11,94,74,0.15);
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .badge .dot {
+      width: 6px; height: 6px;
+      background: var(--green-lt);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.6rem, 7vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--green);
+      position: relative;
+    }
+
+    h1 em::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: 0; right: 0;
+      height: 4px;
+      background: var(--green-lt);
+      border-radius: 2px;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 48px;
+      font-weight: 400;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 20px 40px -8px rgba(11,94,74,0.12);
+      text-align: left;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .form-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    .form-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 560px) {
+      .form-row { grid-template-columns: 1fr; }
+      nav { padding: 16px 20px; }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+
+    .field input {
+      padding: 13px 16px;
+      border: 1.5px solid var(--cream-dk);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      width: 100%;
+    }
+
+    .field input:focus {
+      border-color: var(--green);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(11,94,74,0.1);
+    }
+
+    .field input::placeholder { color: #9CA3AF; }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--green);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      background: var(--green-mid);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(11,94,74,0.25);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+
+    .submit-btn svg { transition: transform 0.2s; }
+    .submit-btn:hover svg { transform: translateX(3px); }
+
+    .form-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-card {
+      display: none;
+      background: var(--white);
+      border-radius: 24px;
+      padding: 56px 40px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 20px 40px -8px rgba(11,94,74,0.12);
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 72px; height: 72px;
+      background: rgba(74,222,128,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2rem;
+    }
+
+    .success-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .success-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .section {
+      padding: 100px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 60px;
+      color: var(--ink);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 680px) { .steps { grid-template-columns: 1fr; } }
+
+    .step {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid var(--cream-dk);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .step:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(11,94,74,0.1); }
+
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 3.5rem;
+      color: var(--cream-dk);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step-icon { font-size: 1.8rem; margin-bottom: 14px; display: block; }
+
+    .step h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .step p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── CATEGORIES ── */
+    .categories-section {
+      background: var(--green);
+      padding: 100px 24px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .categories-section .section-label { color: var(--green-lt); }
+    .categories-section h2 { color: var(--white); margin: 0 auto 48px; max-width: 600px; }
+
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .tag:hover { background: rgba(255,255,255,0.2); transform: scale(1.04); }
+
+    /* ── EXETER SECTION ── */
+    .exeter-section {
+      padding: 100px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    @media (max-width: 640px) { .exeter-section { grid-template-columns: 1fr; gap: 40px; } }
+
+    .exeter-text .section-label { margin-bottom: 12px; }
+
+    .exeter-text h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .exeter-text p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .exeter-map {
+      background: var(--white);
+      border-radius: 24px;
+      border: 1px solid var(--cream-dk);
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exeter-map::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(29,158,117,0.08) 0%, transparent 70%);
+    }
+
+    .exeter-map-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--green);
+      position: relative;
+    }
+
+    .launch-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    .launch-chip {
+      background: rgba(11,94,74,0.06);
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--green);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 0.85rem;
+    }
+
+    footer .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .error-msg {
+      color: #dc2626;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* loading spinner on button */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">pontora<span></span></div>
+    <a href="#signup" class="nav-cta">Join the waitlist</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="signup">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="hero-inner">
+      <div class="badge"><div class="dot"></div> Launching in Exeter — May 2026</div>
+
+      <h1>Trusted students<br>for <em>local jobs</em>.</h1>
+
+      <p class="subtitle">
+        Pontora connects Exeter locals with verified students ready to help. Quick jobs, trusted students, easy to arrange.
+      </p>
+
+      <!-- FORM -->
+      <div class="form-card" id="formCard">
+        <h2>Get early access 🎉</h2>
+        <p>Be the first to know when Pontora goes live in Exeter.</p>
+
+        <form id="waitlistForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="fname">First name</label>
+              <input type="text" id="fname" name="first_name" placeholder="Alex" required />
+            </div>
+            <div class="field">
+              <label for="lname">Last name</label>
+              <input type="text" id="lname" name="last_name" placeholder="Smith" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field full">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" placeholder="alex@gmail.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field full">
+              <label for="phone">Mobile number</label>
+              <input type="tel" id="phone" name="phone" placeholder="07700 900000" required />
+            </div>
+          </div>
+
+          <p class="error-msg" id="errorMsg">Something went wrong — please try again.</p>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span id="btnText">Join the waitlist</span>
+            <div class="spinner" id="spinner"></div>
+            <svg id="btnArrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+
+          <p class="form-note">🔒 No spam, ever. We'll only contact you about Pontora.</p>
+        </form>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-card" id="successCard">
+        <div class="success-icon">🎉</div>
+        <h2>You're on the list!</h2>
+        <p>We'll text and email you the moment Pontora goes live in Exeter.<br>We can't wait to have you on board.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <p class="section-label reveal">How it works</p>
+    <h2 class="reveal">Simple as that.</h2>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <span class="step-icon">📋</span>
+        <h3>Post a job</h3>
+        <p>Need help with gardening, cleaning, or errands? Post it in 60 seconds. Set your budget and when you need it done.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <span class="step-icon">👋</span>
+        <h3>Get matched</h3>
+        <p>Local people apply to your job. Browse their profiles, ratings, and reviews — then accept who you want.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <span class="step-icon">✅</span>
+        <h3>Done &amp; dusted</h3>
+        <p>Job complete! Agree payment directly with the poster — in cash or by bank transfer. Then rate your experience and build your reputation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section">
+    <p class="section-label reveal">What people need help with</p>
+    <h2 class="reveal" style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-0.03em;line-height:1.1;">
+      All kinds of everyday tasks
+    </h2>
+
+    <div class="tags-wrap reveal">
+      <div class="tag">🌱 Gardening</div>
+      <div class="tag">🧹 Cleaning</div>
+      <div class="tag">🛒 Errands</div>
+      <div class="tag">📦 Moving &amp; lifting</div>
+      <div class="tag">🚗 Deliveries</div>
+      <div class="tag">🖌️ Painting &amp; decorating</div>
+      <div class="tag">🔧 DIY tasks</div>
+      <div class="tag">🍽️ Washing up</div>
+      <div class="tag">💻 Tech help</div>
+      <div class="tag">✂️ Odd jobs</div>
+    </div>
+  </section>
+
+  <!-- NOTICE STRIP -->
+  <div style="background:var(--cream-dk);border-top:1px solid rgba(11,94,74,0.1);border-bottom:1px solid rgba(11,94,74,0.1);padding:32px 24px;">
+    <div style="max-width:820px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;">
+      <div style="flex:1;min-width:260px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="font-size:1.5rem;flex-shrink:0;">💸</div>
+        <div>
+          <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:4px;">Payments arranged directly</p>
+          <p style="font-size:0.85rem;color:var(--muted);line-height:1.55;">Pontora doesn't handle payments. Once a job is agreed, payment is sorted directly between you — by cash or bank transfer. In-app payments are coming soon.</p>
+        </div>
+      </div>
+      <div style="flex:1;min-width:260px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="font-size:1.5rem;flex-shrink:0;">🔒</div>
+        <div>
+          <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:4px;">DBS checks coming soon</p>
+          <p style="font-size:0.85rem;color:var(--muted);line-height:1.55;">Jobs requiring DBS checks — such as working with children or vulnerable adults — are not available at launch. We're working on verified DBS badges for a future update.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXETER SECTION -->
+  <div class="exeter-section">
+    <div class="exeter-text reveal">
+      <p class="section-label">Built for Exeter</p>
+      <h2>Your city.<br>Your community.<br>Your work.</h2>
+      <p>
+        Pontora is launching exclusively in Exeter in May 2026. We're building a local network of trusted people who want to earn, and locals who need a hand.
+      </p>
+      <p>
+        Whether you're a student looking for flexible work around lectures, or a busy local who needs an extra pair of hands — Pontora is for you.
+      </p>
+    </div>
+
+    <div class="exeter-map reveal">
+      <span style="font-size:3.5rem;position:relative;">📍</span>
+      <span class="exeter-map-label">Exeter, Devon</span>
+      <div class="launch-chips">
+        <div class="launch-chip">🗓️ Launching May 2026</div>
+        <div class="launch-chip">🎓 Student verified badges</div>
+        <div class="launch-chip">⭐ Rated &amp; trusted workers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">pontora<span style="display:inline-block;width:6px;height:6px;background:#4ADE80;border-radius:50%;margin-left:2px;vertical-align:middle;transform:translateY(-2px);"></span></div>
+    <p>© 2026 Pontora. Trusted students for local jobs.</p>
+    <p style="margin-top:6px;font-size:0.78rem;">Questions? <a href="mailto:hello@pontora.co.uk" style="color:#4ADE80;text-decoration:none;">hello@pontora.co.uk</a></p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Form submission
+    const form = document.getElementById('waitlistForm');
+    const formCard = document.getElementById('formCard');
+    const successCard = document.getElementById('successCard');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    const btnArrow = document.getElementById('btnArrow');
+    const errorMsg = document.getElementById('errorMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+
+      const first_name = document.getElementById('fname').value.trim();
+      const last_name  = document.getElementById('lname').value.trim();
+      const email      = document.getElementById('email').value.trim();
+      const phone      = document.getElementById('phone').value.trim();
+
+      if (!first_name || !last_name || !email || !phone) {
+        errorMsg.textContent = 'Please fill in all fields.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      // Loading state
+      btnText.textContent = 'Joining...';
+      spinner.style.display = 'block';
+      btnArrow.style.display = 'none';
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('/waitlist/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ first_name, last_name, email, phone })
+        });
+
+        if (res.ok) {
+          formCard.style.display = 'none';
+          successCard.style.display = 'block';
+          successCard.style.animation = 'fadeUp 0.5s ease both';
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (err) {
+        errorMsg.textContent = 'Something went wrong — please try again.';
+        errorMsg.style.display = 'block';
+        btnText.textContent = 'Join the waitlist';
+        spinner.style.display = 'none';
+        btnArrow.style.display = 'block';
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
