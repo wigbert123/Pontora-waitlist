@@ -15,12 +15,13 @@ db = SQLAlchemy(app)
 
 class WaitlistEntry(db.Model):
     __tablename__ = 'waitlist_entry'
-    id         = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(80), nullable=False)
-    last_name  = db.Column(db.String(80), nullable=False)
-    email      = db.Column(db.String(120), unique=True, nullable=False)
-    phone      = db.Column(db.String(20), nullable=False)
-    signed_up  = db.Column(db.DateTime, default=datetime.utcnow)
+    id          = db.Column(db.Integer, primary_key=True)
+    first_name  = db.Column(db.String(80), nullable=False)
+    last_name   = db.Column(db.String(80), nullable=False)
+    email       = db.Column(db.String(120), unique=True, nullable=False)
+    phone       = db.Column(db.String(20), nullable=False)
+    suggestions = db.Column(db.Text, nullable=True)
+    signed_up   = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 @app.route('/')
@@ -32,10 +33,11 @@ def index():
 def waitlist_signup():
     data = request.get_json()
 
-    first_name = (data.get('first_name') or '').strip()
-    last_name  = (data.get('last_name')  or '').strip()
-    email      = (data.get('email')      or '').strip().lower()
-    phone      = (data.get('phone')      or '').strip()
+    first_name  = (data.get('first_name')  or '').strip()
+    last_name   = (data.get('last_name')   or '').strip()
+    email       = (data.get('email')       or '').strip().lower()
+    phone       = (data.get('phone')       or '').strip()
+    suggestions = (data.get('suggestions') or '').strip()
 
     if not all([first_name, last_name, email, phone]):
         return jsonify({'error': 'All fields required'}), 400
@@ -47,7 +49,8 @@ def waitlist_signup():
         first_name=first_name,
         last_name=last_name,
         email=email,
-        phone=phone
+        phone=phone,
+        suggestions=suggestions if suggestions else None
     )
     db.session.add(entry)
     db.session.commit()
@@ -66,6 +69,7 @@ def admin():
               <td>{e.first_name} {e.last_name}</td>
               <td>{e.email}</td>
               <td>{e.phone}</td>
+              <td style="max-width:250px;color:{'#1A1A1A' if e.suggestions else '#9CA3AF'}">{e.suggestions or '—'}</td>
               <td>{e.signed_up.strftime('%d %b %Y %H:%M')}</td>
             </tr>"""
         for e in entries
@@ -93,8 +97,8 @@ def admin():
   <p>{count} people signed up so far</p>
   <a class="export" href="/export">⬇ Download CSV</a>
   <table>
-    <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Signed Up</th></tr></thead>
-    <tbody>{rows if rows else '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:40px;">No signups yet</td></tr>'}</tbody>
+    <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Suggestions</th><th>Signed Up</th></tr></thead>
+    <tbody>{rows if rows else '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:40px;">No signups yet</td></tr>'}</tbody>
   </table>
 </body></html>"""
 
@@ -107,15 +111,16 @@ def export():
 
     output = io.StringIO()
     writer = csv.writer(output)
-    writer.writerow(['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Signed Up'])
+    writer.writerow(['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Suggestions', 'Signed Up'])
     for e in entries:
         writer.writerow([e.id, e.first_name, e.last_name, e.email, e.phone,
-                         e.signed_up.strftime('%d/%m/%Y %H:%M')])
+                         e.suggestions or '', e.signed_up.strftime('%d/%m/%Y %H:%M')])
 
     response = make_response(output.getvalue())
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = 'attachment; filename=pontora_waitlist.csv'
     return response
+
 
 @app.route('/privacy')
 def privacy():
