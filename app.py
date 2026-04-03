@@ -117,6 +117,10 @@ def export():
     response.headers['Content-Disposition'] = 'attachment; filename=pontora_waitlist.csv'
     return response
 
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
 
 if __name__ == '__main__':
     with app.app_context():
